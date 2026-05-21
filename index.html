@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tokyo95</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/favicon.ico" sizes="any">
+    <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <meta name="theme-color" content="#000080">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+</head>
+<body class="win95-bg">
+    <div id="desktop">
+        <div class="window win95-raised" id="main-window">
+            <div class="title-bar win95-titlebar">
+                <div class="title-bar-text" id="window-title">🎲 Tokyo95</div>
+            </div>
+            
+            <div class="menu-bar">
+                <div class="menu-item">Game
+                    <div class="menu-dropdown">
+                        <div class="menu-action" id="menu-new-game">New Game</div>
+                        <div class="menu-separator"></div>
+                        <div class="menu-action" id="menu-exit">Exit</div>
+                    </div>
+                </div>
+                <div class="menu-item">Help
+                    <div class="menu-dropdown">
+                        <div class="menu-action" id="menu-rules">How to Play</div>
+                        <div class="menu-action" id="menu-about">About Tokyo</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="window-content">
+                <div class="game-area win95-inset felt-table">
+                    <div class="players-grid">
+                        <div class="player-panel" id="player-1">
+                            <span class="avatar">📎</span>
+                            <span class="name">Clippy</span>
+                            <span class="lives">♥♥♥</span>
+                            <div class="mini-dice">
+                                <div class="die mini-die"></div>
+                                <div class="die mini-die"></div>
+                            </div>
+                        </div>
+                        <div class="player-panel" id="player-2">
+                            <span class="avatar">👨‍💼</span>
+                            <span class="name">Bob</span>
+                            <span class="lives">♥♥♥</span>
+                            <div class="mini-dice">
+                                <div class="die mini-die"></div>
+                                <div class="die mini-die"></div>
+                            </div>
+                        </div>
+                        <div class="player-panel" id="player-3">
+                            <span class="avatar">💀</span>
+                            <span class="name">XERXES</span>
+                            <span class="lives">♥♥♥</span>
+                            <div class="mini-dice">
+                                <div class="die mini-die"></div>
+                                <div class="die mini-die"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dice-container">
+                        <div class="die" id="die-1"></div>
+                        <div class="die" id="die-2"></div>
+                    </div>
+
+                    <div class="user-panel">
+                        <div class="player-info">
+                            <span class="name">Player</span>
+                            <span class="lives" id="user-lives">♥♥♥</span>
+                        </div>
+                        <div class="controls">
+                            <button class="win95-button" id="btn-challenge" disabled>Challenge</button>
+                            <button class="win95-button" id="btn-roll">Roll</button>
+                            <div class="announce-group">
+                                <button class="win95-button" id="btn-announce">Announce</button>
+                                <div class="stepper win95-inset">
+                                    <input type="text" id="claim-input" readonly value="31">
+                                    <div class="stepper-buttons">
+                                        <button class="stepper-up">▲</button>
+                                        <button class="stepper-down">▼</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="log-area win95-inset" id="game-log">
+                    <div class="log-entry">> Welcome to Tokyo.</div>
+                    <div class="log-entry">> Press 'New Game' or 'Roll' to start.</div>
+                </div>
+            </div>
+
+            <div class="status-bar win95-raised">
+                <div class="status-bar-field" id="status-text">Your turn — Previous claim: None</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="modal-overlay" class="hidden">
+        <div class="window win95-raised dialog hidden" id="rules-dialog">
+            <div class="title-bar win95-titlebar">
+                <div class="title-bar-text">Tokyo95 Help Guide</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Close" class="close-modal"></button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="help-content win95-inset">
+                    <h3>Game Rules: Tokyo / Meyer</h3>
+                    <p>Tokyo is a classic dice bluffing game played with two dice. The objective is to be the last player with lives remaining.</p>
+                    <ul>
+                        <li><b>Rolling:</b> On your turn, roll two dice secretly.</li>
+                        <li><b>Announcing:</b> Announce a value. It must be higher than the previous player's claim. You can tell the truth or bluff.</li>
+                        <li><b>Ranking:</b>
+                            <ul>
+                                <li><b>21 (Tokyo):</b> The highest possible roll.</li>
+                                <li><b>Pairs:</b> 66 > 55 > 44 > 33 > 22 > 11.</li>
+                                <li><b>Numbers:</b> Higher combinations first (e.g., 65 > 64 > 54 > ... > 31).</li>
+                            </ul>
+                        </li>
+                        <li><b>Challenging:</b> Instead of rolling, you can challenge the previous player's claim.
+                            <ul>
+                                <li>If they were <b>bluffing</b>, they lose 1 life.</li>
+                                <li>If they were <b>honest</b>, you lose 1 life.</li>
+                            </ul>
+                        </li>
+                        <li><b>Tokyo Rule:</b> If a player calls "Tokyo" (21), the next player MUST challenge.</li>
+                    </ul>
+                </div>
+                <div class="dialog-footer">
+                    <button class="win95-button close-modal">OK</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="window win95-raised dialog hidden" id="about-dialog">
+            <div class="title-bar win95-titlebar">
+                <div class="title-bar-text">About Tokyo95</div>
+            </div>
+            <div class="window-content">
+                <p>Tokyo95 — Dice Bluffing</p>
+                <p>Version 1.0</p>
+                <p><a href="https://github.com/mattconfusion/tokyo95" target="_blank" style="color: blue;">github.com/mattconfusion/tokyo95</a></p>
+                <div class="dialog-buttons">
+                    <button class="win95-button close-modal">OK</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Over Dialog -->
+        <div class="window win95-raised dialog hidden" id="game-over-dialog">
+            <div class="title-bar win95-titlebar">
+                <div class="title-bar-text">Game Over</div>
+            </div>
+            <div class="window-content">
+                <p id="game-over-message">You have lost all your lives. Better luck next time!</p>
+                <div class="dialog-buttons">
+                    <button class="win95-button close-modal">OK</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Win Dialog -->
+        <div class="window win95-raised dialog hidden" id="win-dialog">
+            <div class="title-bar win95-titlebar">
+                <div class="title-bar-text">Congratulations!</div>
+            </div>
+            <div class="window-content">
+                <p>You have won the game! You are the ultimate master of bluffing.</p>
+                <div class="dialog-buttons">
+                    <button class="win95-button close-modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+    <script src="ui.js"></script>
+</body>
+</html>

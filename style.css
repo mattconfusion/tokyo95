@@ -1,0 +1,435 @@
+/* Core Win95 Styles */
+:root {
+  --win-silver: #c0c0c0;
+  --win-white: #ffffff;
+  --win-gray: #808080;
+  --win-dark-gray: #404040;
+  --win-blue: #000080;
+  --win-light-blue: #1084d0;
+  --win-teal: #008080;
+  --win-black: #000000;
+  --felt-green: #1a5c2a;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: none;
+  font-family: 'Tahoma', 'MS Sans Serif', sans-serif;
+  font-size: 12px; /* Conservative increase from 11px */
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--win-teal);
+}
+
+.win95-bg {
+  background-color: var(--win-teal);
+}
+
+#desktop {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Win95 Panels */
+.win95-raised {
+  background: var(--win-silver);
+  border: 2px solid;
+  border-color: var(--win-white) var(--win-gray) var(--win-gray) var(--win-white);
+  box-shadow: 1px 1px 0 var(--win-white) inset, -1px -1px 0 var(--win-dark-gray) inset;
+}
+
+.win95-inset {
+  border: 2px solid;
+  border-color: var(--win-gray) var(--win-white) var(--win-white) var(--win-gray);
+  box-shadow: -1px -1px 0 var(--win-dark-gray) inset, 1px 1px 0 var(--win-white) inset;
+}
+
+/* Window */
+.window {
+  min-width: 480px; /* Conservative increase from 400px */
+  display: flex;
+  flex-direction: column;
+}
+
+.title-bar {
+  padding: 4px 3px; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to right, var(--win-blue), var(--win-light-blue));
+  color: white;
+  font-weight: bold;
+}
+
+.title-bar-text {
+    font-size: 12px;
+}
+
+.title-bar-controls button {
+  width: 16px;
+  height: 14px;
+  background: var(--win-silver);
+  border: 1px solid;
+  border-color: var(--win-white) var(--win-dark-gray) var(--win-dark-gray) var(--win-white);
+  padding: 0;
+  margin-left: 2px;
+  cursor: pointer;
+  position: relative;
+}
+
+.title-bar-controls button:active {
+    border-color: var(--win-dark-gray) var(--win-white) var(--win-white) var(--win-dark-gray);
+}
+
+/* Menu Bar */
+.menu-bar {
+  display: flex;
+  padding: 1px 2px;
+  background: var(--win-silver);
+  border-bottom: 1px solid var(--win-gray);
+  z-index: 50;
+}
+
+.menu-item {
+  padding: 2px 8px;
+  cursor: default;
+  position: relative;
+}
+
+.menu-item:hover {
+  background-color: var(--win-blue);
+  color: white;
+}
+
+.menu-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--win-silver);
+    min-width: 120px;
+    z-index: 100;
+    border: 1px solid;
+    border-color: var(--win-white) var(--win-dark-gray) var(--win-dark-gray) var(--win-white);
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+}
+
+.menu-item:hover .menu-dropdown {
+    display: block;
+}
+
+.menu-action {
+    padding: 4px 12px;
+    color: black;
+    display: block;
+    text-decoration: none;
+}
+
+.menu-action:hover {
+    background: var(--win-blue);
+    color: white;
+}
+
+.menu-separator {
+    height: 1px;
+    background: var(--win-gray);
+    margin: 2px 4px;
+    border-bottom: 1px solid var(--win-white);
+}
+
+/* Dialogs & Help Style */
+.help-content {
+    background: white;
+    padding: 15px;
+    border: 1px solid var(--win-gray);
+    margin-bottom: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    color: black;
+}
+
+.help-content h3 {
+    margin-top: 0;
+    font-size: 14px;
+    border-bottom: 1px solid var(--win-silver);
+    padding-bottom: 5px;
+}
+
+.help-content ul {
+    padding-left: 20px;
+}
+
+.help-content li {
+    margin-bottom: 8px;
+}
+
+.dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.window-content {
+  padding: 4px;
+  background: var(--win-silver);
+}
+
+.game-area {
+  height: 360px; /* Conservative increase from 300px */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+}
+
+.felt-table {
+  background-color: var(--felt-green);
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(0,0,0,0.03) 0px, rgba(0,0,0,0.03) 1px,
+      transparent 1px, transparent 6px
+    );
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.4);
+}
+
+/* Players Grid */
+.players-grid {
+    display: flex;
+    justify-content: space-around;
+}
+
+.player-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    text-shadow: 1px 1px 1px black;
+    padding: 2px;
+}
+
+.player-panel.active {
+    border: 1px dotted white;
+}
+
+.avatar {
+    font-size: 28px; /* Slight increase from 24px */
+}
+
+.name {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.lives {
+    color: #ff0000;
+    font-size: 14px;
+}
+
+/* Dice */
+.dice-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px; 
+}
+
+.die {
+    width: 60px; /* Conservative increase from 48px */
+    height: 60px; 
+    /* background-color: #f5e6c8; */
+    /*border: 3px solid #8b1a1a;*/
+    image-rendering: pixelated;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    /* box-shadow: 3px 3px 6px rgba(0,0,0,0.5); */
+}
+
+.die.hidden {
+    background-image: none;
+    background-color: #8b1a1a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 32px; 
+    font-weight: bold;
+}
+.invisible {
+    visibility: hidden !important;
+}
+
+.mini-dice {
+    display: flex;
+    gap: 5px;
+    margin: 5px 0;
+    height: 28px; /* Fixed height including potential shadow */
+    justify-content: center;
+    align-items: center;
+}
+
+.mini-die {
+    width: 24px;
+    height: 24px;
+    border-width: 2px;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+    flex-shrink: 0;
+}
+
+
+.die-1 { background-image: url('assets/1_dot.png'); }
+.die-2 { background-image: url('assets/2_dots.png'); }
+.die-3 { background-image: url('assets/3_dots.png'); }
+.die-4 { background-image: url('assets/4_dots.png'); }
+.die-5 { background-image: url('assets/5_dots.png'); }
+.die-6 { background-image: url('assets/6_dots.png'); }
+
+/* User Panel */
+.user-panel {
+    background: rgba(0,0,0,0.3);
+    padding: 12px; 
+    border-top: 1px solid rgba(255,255,255,0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.controls {
+    display: flex;
+    gap: 12px; 
+    align-items: center;
+}
+
+.win95-button {
+  background: var(--win-silver);
+  border: 2px solid;
+  border-color: var(--win-white) var(--win-gray) var(--win-gray) var(--win-white);
+  padding: 4px 14px; 
+  cursor: pointer;
+  outline: none;
+  font-size: 12px;
+}
+
+.win95-button:active:not(:disabled) {
+  border-color: var(--win-gray) var(--win-white) var(--win-white) var(--win-gray);
+  padding: 5px 13px 3px 15px;
+}
+
+.win95-button:disabled {
+    color: var(--win-gray);
+    cursor: default;
+}
+
+/* Stepper */
+.announce-group {
+    display: flex;
+    gap: 4px;
+}
+
+.stepper {
+    display: flex;
+    background: white;
+    width: 70px; 
+}
+
+.stepper input {
+    width: 100%;
+    border: none;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.stepper-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.stepper-buttons button {
+    height: 50%;
+    width: 18px; 
+    padding: 0;
+    font-size: 8px;
+    background: var(--win-silver);
+    border: 1px solid;
+    border-color: var(--win-white) var(--win-gray) var(--win-gray) var(--win-white);
+}
+
+/* Log Area */
+.log-area {
+    height: 100px; /* Slight increase from 80px */
+    background: white;
+    margin-top: 4px;
+    padding: 6px;
+    overflow-y: scroll;
+    color: black;
+}
+
+.log-entry {
+    font-family: 'Courier New', monospace;
+    font-size: 11px; /* Slight increase from 10px */
+    margin-bottom: 3px;
+}
+
+/* Status Bar */
+.status-bar {
+    height: 24px; /* Slight increase from 20px */
+    margin-top: 3px;
+    display: flex;
+}
+
+.status-bar-field {
+    flex: 1;
+    border: 1px solid;
+    border-color: var(--win-gray) var(--win-white) var(--win-white) var(--win-gray);
+    padding-left: 6px;
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+}
+
+/* Modals */
+#modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.dialog {
+    width: 280px; /* Reduced from 320px */
+}
+
+.dialog .window-content {
+    text-align: center; /* Center text in dialogs */
+}
+
+.dialog-buttons {
+    margin-top: 12px;
+    display: flex;
+    justify-content: center;
+}
+
+#game-over-dialog, #win-dialog {
+    width: 260px; /* Slightly smaller for result dialogs */
+}
