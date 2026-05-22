@@ -87,6 +87,10 @@ body, html {
     background-color: rgba(0, 0, 128, 0.3);
 }
 
+.desktop-icon span.icon-part {
+    white-space: nowrap;
+}
+
 .desktop-icon.selected span.icon-part {
     background-color: var(--win-blue);
     color: white;

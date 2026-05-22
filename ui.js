@@ -203,7 +203,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Update Buttons
-        const canRoll = isHumanTurn && state.phase === 'rolling' && !state.gameOver;
+        const prevRank = state.previousClaim ? getRank(state.previousClaim.value) : -1;
+        const isTokyoClaim = prevRank === 20;
+
+        const canRoll = isHumanTurn && state.phase === 'rolling' && !state.gameOver && !isTokyoClaim;
         const canChallenge = isHumanTurn && state.phase === 'rolling' && state.previousClaim && !state.gameOver;
         const canAnnounce = isHumanTurn && state.phase === 'announcing' && !state.gameOver;
 
@@ -270,6 +273,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event Listeners
     btnRoll.addEventListener('click', () => {
         if (game.phase !== 'rolling') return;
+        btnRoll.disabled = true;
+        btnChallenge.disabled = true;
         playSound('roll');
         log("You roll the dice...");
         animateDice(() => {
