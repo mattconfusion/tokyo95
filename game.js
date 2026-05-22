@@ -12,6 +12,7 @@ const ALL_VALUES = [
 ];
 
 function getRank(dice) {
+    if (!dice || !Array.isArray(dice)) return -1;
     const sorted = [...dice].sort((a, b) => b - a);
     const d1 = sorted[0];
     const d2 = sorted[1];
@@ -32,14 +33,24 @@ function getValueFromRank(rank) {
     return ALL_VALUES[ALL_VALUES.length - 1 - rank];
 }
 
+const AI_ROSTER = [
+    { id: 'clippy', name: "Clippy", avatar: "📎", difficulty: "easy", bluffRate: 0.20, challengeRate: 0.20, logStyle: 'helpful' },
+    { id: 'dot', name: "Dot", avatar: "🔵", difficulty: "easy", bluffRate: 0.35, challengeRate: 0.15, logStyle: 'childlike' },
+    { id: 'bob', name: "Bob", avatar: "👨‍💼", difficulty: "medium", bluffRate: 0.40, challengeRate: 0.35, logStyle: 'plain' },
+    { id: 'vera', name: "Vera", avatar: "🌹", difficulty: "medium", bluffRate: 0.55, challengeRate: 0.45, logStyle: 'elegant' },
+    { id: 'tanaka', name: "Tanaka", avatar: "🀄", difficulty: "hard", bluffRate: 0.30, challengeRate: 0.60, logStyle: 'terse' },
+    { id: 'glitch', name: "Glitch", avatar: "📟", difficulty: "hard", bluffRate: 0.65, challengeRate: 0.65, logStyle: 'glitched' },
+    { id: 'countess', name: "Countess", avatar: "🎭", difficulty: "expert", bluffRate: 0.80, challengeRate: 0.25, logStyle: 'elegant' },
+    { id: 'monk', name: "Monk", avatar: "🪨", difficulty: "expert", bluffRate: 0.15, challengeRate: 0.70, logStyle: 'proverb' },
+    { id: 'xerxes', name: "XERXES", avatar: "💀", difficulty: "expert", bluffRate: 0.18, challengeRate: 0.78, logStyle: 'terse' }
+];
+
 class TokyoGame {
     constructor() {
         this.players = [
-            { name: "Player", lives: 3, isHuman: true, avatar: "👤" },
-            { name: "Clippy", lives: 3, isHuman: false, avatar: "📎", difficulty: "easy" },
-            { name: "Bob", lives: 3, isHuman: false, avatar: "👨‍💼", difficulty: "medium" },
-            { name: "XERXES", lives: 3, isHuman: false, avatar: "💀", difficulty: "hard" }
+            { name: "Player", lives: 3, isHuman: true, avatar: "👤" }
         ];
+        this.setupPlayers();
         this.currentPlayerIndex = 0;
         this.previousClaim = null; // { value: [d1, d2], playerIndex: int }
         this.currentRoll = null; // [d1, d2]
@@ -57,11 +68,24 @@ class TokyoGame {
         };
     }
 
+    setupPlayers() {
+        // Shuffle roster and pick 3
+        const shuffled = [...AI_ROSTER].sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, 3);
+        
+        // Keep Human at index 0, add 3 AI players
+        this.players = [
+            { name: "Player", lives: 3, isHuman: true, avatar: "👤" },
+            ...selected.map(ai => ({ ...ai, lives: 3, isHuman: false }))
+        ];
+    }
+
     saveStats() {
         localStorage.setItem('tokyo_stats', JSON.stringify(this.stats));
     }
 
     reset() {
+        this.setupPlayers();
         this.players.forEach(p => p.lives = 3);
         this.currentPlayerIndex = Math.floor(Math.random() * this.players.length);
         this.previousClaim = null;
@@ -230,17 +254,14 @@ class TokyoGame {
             if (this.gameOver) return;
 
             // 1. Consider Challenge
-            // If someone claimed Tokyo (20), we MUST challenge if we can't tie it (and ties aren't allowed in claims)
+            // If someone claimed Tokyo (20), we MUST challenge if we can't tie it
             if (this.previousClaim) {
                 let challengeProb = 0;
                 if (prevRank >= 20) {
                     challengeProb = 1.0; // Must challenge Tokyo
-                } else if (bot.difficulty === 'easy') {
-                    challengeProb = 0.2;
-                } else if (bot.difficulty === 'medium') {
-                    challengeProb = (prevRank / 20) * 0.5;
-                } else if (bot.difficulty === 'hard') {
-                    challengeProb = (prevRank / 20) * 0.7;
+                } else {
+                    // Use personality challenge rate
+                    challengeProb = bot.challengeRate * (prevRank / 20 + 0.2); 
                 }
 
                 if (Math.random() < challengeProb) {
@@ -268,8 +289,8 @@ class TokyoGame {
                     // Bluff: next logical rank
                     let targetRank = prevRank + 1;
                     
-                    // Easy bots might bluff higher than necessary
-                    if (bot.difficulty === 'easy' && Math.random() < 0.3) {
+                    // Bluff based on bluffRate
+                    if (Math.random() < bot.bluffRate) {
                         targetRank += Math.floor(Math.random() * 2);
                     }
                     

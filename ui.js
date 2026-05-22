@@ -11,14 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('die-2')
     ];
     const playerPanels = [
-        document.getElementById('player-1'), // Clippy
-        document.getElementById('player-2'), // Bob
-        document.getElementById('player-3'), // XERXES
+        document.getElementById('player-1'), // AI 1
+        document.getElementById('player-2'), // AI 2
+        document.getElementById('player-3'), // AI 3
         document.querySelector('.user-panel') // YOU
     ];
-    // Map game player index to DOM panels
-    // Players: 0=YOU, 1=Clippy, 2=Bob, 3=XERXES
-    const playerMap = [3, 0, 1, 2]; 
 
     const btnRoll = document.getElementById('btn-roll');
     const btnAnnounce = document.getElementById('btn-announce');
@@ -95,8 +92,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Update Players
         state.players.forEach((p, i) => {
-            const panel = playerPanels[playerMap[i]];
+            let panel;
+            if (p.isHuman) {
+                panel = playerPanels[3];
+            } else {
+                const aiPlayers = state.players.filter(pl => !pl.isHuman);
+                const aiIndex = aiPlayers.findIndex(pl => pl === p);
+                panel = playerPanels[aiIndex];
+            }
+
             if (panel) {
+                if (!p.isHuman) {
+                    panel.querySelector('.avatar').textContent = p.avatar;
+                    panel.querySelector('.name').textContent = p.name;
+                }
+
                 const livesEl = panel.querySelector('.lives');
                 if (livesEl) {
                     livesEl.textContent = '♥'.repeat(Math.max(0, p.lives)) + '○'.repeat(Math.max(0, 3 - p.lives));
