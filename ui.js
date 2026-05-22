@@ -38,6 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const aboutDialog = document.getElementById('about-dialog');
     const closeModalBtns = document.querySelectorAll('.close-modal');
 
+    const desktopIcon = document.querySelector('.desktop-icon');
+    desktopIcon.addEventListener('click', () => {
+        desktopIcon.classList.toggle('selected');
+    });
+
     const windowTitle = document.getElementById('window-title');
     const gameOverDialog = document.getElementById('game-over-dialog');
     const gameOverMessage = document.getElementById('game-over-message');

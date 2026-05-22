@@ -36,6 +36,65 @@ body, html {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+}
+
+.desktop-icon {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    cursor: pointer;
+    color: white;
+    text-shadow: 1px 1px 1px black;
+    z-index: 1;
+    padding: 5px;
+}
+
+.icon-image-wrapper {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    margin-bottom: 4px;
+}
+
+.icon-image-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: none;
+}
+
+.desktop-icon:hover .icon-image-wrapper::after {
+    display: block;
+    background-color: rgba(0, 0, 128, 0.3);
+}
+
+.desktop-icon.selected .icon-image-wrapper::after {
+    display: block;
+    background-color: var(--win-blue);
+    opacity: 0.5;
+}
+
+.desktop-icon:hover span.icon-part {
+    background-color: rgba(0, 0, 128, 0.3);
+}
+
+.desktop-icon.selected span.icon-part {
+    background-color: var(--win-blue);
+    color: white;
+}
+
+.desktop-icon img {
+    width: 32px;
+    height: 32px;
 }
 
 /* Win95 Panels */
@@ -57,6 +116,8 @@ body, html {
   min-width: 480px; /* Conservative increase from 400px */
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 2;
 }
 
 /* Responsive adjustments */
@@ -83,6 +144,15 @@ body, html {
   }
   .announce-group .win95-button {
     flex: 1;
+  }
+}
+
+@media (min-height: 700px) {
+  .game-area {
+    height: 600px;
+  }
+  .log-area {
+    height: 300px;
   }
 }
 
