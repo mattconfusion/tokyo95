@@ -63,7 +63,7 @@ class TokyoGame {
 
     reset() {
         this.players.forEach(p => p.lives = 3);
-        this.currentPlayerIndex = 0;
+        this.currentPlayerIndex = Math.floor(Math.random() * this.players.length);
         this.previousClaim = null;
         this.currentRoll = null;
         this.phase = 'idle';

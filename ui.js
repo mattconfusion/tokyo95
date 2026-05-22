@@ -39,8 +39,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeModalBtns = document.querySelectorAll('.close-modal');
 
     const desktopIcon = document.querySelector('.desktop-icon');
-    desktopIcon.addEventListener('click', () => {
+    desktopIcon.addEventListener('click', (e) => {
+        e.stopPropagation();
         desktopIcon.classList.toggle('selected');
+    });
+
+    document.addEventListener('click', () => {
+        desktopIcon.classList.remove('selected');
     });
 
     const windowTitle = document.getElementById('window-title');
